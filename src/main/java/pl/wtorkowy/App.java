@@ -2,7 +2,7 @@ package pl.wtorkowy;
 
         import javafx.application.Application;
         import javafx.stage.Stage;
-        import pl.wtorkowy.crypto.Des;
+        import pl.wtorkowy.crypto.DataBlock;
         import pl.wtorkowy.crypto.Xor;
 
 public class App extends Application {
@@ -10,7 +10,7 @@ public class App extends Application {
         launch();
 
         System.out.println(Xor.xorCharTab("77777777", "@@@@@@@@", 8));
-        Des des = new Des();
+        DataBlock des = new DataBlock();
         System.out.println(des.toString());
 
 
@@ -19,5 +19,6 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.show();
+        primaryStage.setTitle("DES");
     }
 }
