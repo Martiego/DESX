@@ -4,7 +4,7 @@ import pl.wtorkowy.cast.ToTab;
 
 import java.util.Arrays;
 
-public class Des {
+public class DataBlock {
     private char [] block = new char[] { '1', '1', '7', '7', '7', '7', '7', '?'};
     private int [] blockInt;
     private byte [] blockByte;
@@ -19,22 +19,32 @@ public class Des {
             61, 53, 45, 37, 29, 21, 13, 5,
             63, 55, 47, 39, 31, 23, 15, 7
     };
+    private byte [] leftBlock = new byte[32];
+    private byte [] rightBlock = new byte[32];
 
-    public Des() {
+    public DataBlock() {
           blockInt = ToTab.toIntegerTab(block);
           blockByte = ToTab.toByteTab(blockInt);
           makeInitialPermutation();
+          divideBlocks();
     }
 
-    public void makeInitialPermutation() {
+    private void makeInitialPermutation() {
         for (int i = 0; i < 64; i++) {
             blockInitialPermutation[i] = blockByte[pattern[i]-1];
         }
     }
 
+    private void divideBlocks() {
+        for (int i = 0; i < 32; i++) {
+            leftBlock[i] = blockInitialPermutation[i];
+            rightBlock[i] = blockInitialPermutation[32 + i];
+        }
+    }
+
     @Override
     public String toString() {
-        return "Des{" +
+        return "DataBlock{" +
                 "blockByte=" + Arrays.toString(blockByte) +
                 ", \nblockInitialPermutation=" + Arrays.toString(blockInitialPermutation) +
                 '}';
