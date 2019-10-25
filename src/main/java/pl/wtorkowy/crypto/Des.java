@@ -9,7 +9,10 @@ public class Des {
     private int [] blockInt;
     private byte [] blockByte;
     private byte [] blockInitialPermutation = new byte[64];
-    private byte [] pattern = {
+    private byte [] blockLeft = new byte[32];
+    private byte [] blockRight = new byte[32];
+    private byte [] blockRightExtended = new byte[32];
+    private byte [] initialPermutationPattern = {
             58, 50, 42, 34, 26, 18, 10, 2,
             60, 52, 44, 36, 28, 20, 12, 4,
             62, 54, 46, 38, 30, 22, 14, 6,
@@ -19,17 +22,33 @@ public class Des {
             61, 53, 45, 37, 29, 21, 13, 5,
             63, 55, 47, 39, 31, 23, 15, 7
     };
+    private byte [] expansionPermutationPattern = {
+            32, 1, 2, 3, 4, 5,
+            4, 5, 6, 7, 8, 9,
+            8, 9, 10, 11, 12, 13,
+            12, 13, 14, 15, 16, 17,
+            16, 17, 18, 19, 20, 21,
+            20, 21, 22, 23, 24, 25,
+            24, 25, 26, 27, 28, 29,
+            28, 29, 30, 31, 32, 1
+    };
+
 
     public Des() {
           blockInt = ToTab.toIntegerTab(block);
           blockByte = ToTab.toByteTab(blockInt);
-          makeInitialPermutation();
+          blockInitialPermutation = permutation(initialPermutationPattern, blockByte, 64);
+          divideBlock();
+          blockRightExtended = permutation(expansionPermutationPattern, blockInitialPermutation, 48);
+
     }
 
-    public void makeInitialPermutation() {
-        for (int i = 0; i < 64; i++) {
-            blockInitialPermutation[i] = blockByte[pattern[i]-1];
+    public byte[] permutation(byte[] pattern,byte[] block, int length) {
+        byte[] blockDestination = new byte[length];
+        for (int i = 0; i < length; i++) {
+            blockDestination[i] = block[pattern[i]-1];
         }
+        return blockDestination;
     }
 
     @Override
@@ -37,6 +56,18 @@ public class Des {
         return "Des{" +
                 "blockByte=" + Arrays.toString(blockByte) +
                 ", \nblockInitialPermutation=" + Arrays.toString(blockInitialPermutation) +
+                ", \nblockLeft=" + Arrays.toString(blockLeft) +
+                ", \nblockRight=" + Arrays.toString(blockRight) +
+                ", \nblockRightExtended=" + Arrays.toString(blockRightExtended) +
                 '}';
+    }
+
+    public void divideBlock() {
+        System.arraycopy(blockInitialPermutation, 0, blockLeft, 0, 32);
+        System.arraycopy(blockInitialPermutation, 32, blockRight, 0, 32);
+    }
+
+    public void expansionPermutation() {
+
     }
 }
