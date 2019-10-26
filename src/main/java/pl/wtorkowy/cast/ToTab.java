@@ -3,7 +3,7 @@ package pl.wtorkowy.cast;
 public class ToTab {
 
     public static char[] toCharTab(String text) {
-        char [] result = new char [text.length()];
+        char[] result = new char[text.length()];
         for (int i = 0; i < text.length(); i++) {
             result[i] = text.charAt(i);
         }
@@ -30,5 +30,40 @@ public class ToTab {
         }
         return blockByte;
     }
+
+    public static byte[] toByteTab(int number) {
+        byte[] blockByte = new byte[4];
+        byte tmp;
+        for (int i = 0; i < 4; i++) {
+            blockByte[i] = (byte) (number%2);
+        }
+        for(int i=0; i< 2; i++){
+            tmp = blockByte[i];
+            blockByte[i] = blockByte[3 - i];
+            blockByte[3 -i] = tmp;
+        }
+
+        return blockByte;
+    }
+
+    public static int toInt(byte[] tab) {
+        int result = 0;
+        int temp = 1;
+
+        for (int i = tab.length - 1; i >= 0; i--) {
+            result += tab[i] * temp;
+            temp *= 2;
+        }
+        return result;
+    }
+
+    public static byte[] cutTab(byte[] tab, int first, int count) {
+        byte[] result = new byte[count];
+        for (int i = first; i < count; i++) {
+            result[i] = tab[i];
+        }
+        return result;
+    }
+
 
 }

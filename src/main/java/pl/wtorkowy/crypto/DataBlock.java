@@ -5,7 +5,7 @@ import pl.wtorkowy.cast.ToTab;
 import java.util.Arrays;
 
 public class DataBlock {
-    private char[] block = new char[] { '1', '1', '7', '7', '7', '7', '7', '?'};
+    private char[] block;
     private int[] blockInt;
     private byte[] blockByte;
     private byte[] blockInitialPermutation = new byte[64];
@@ -34,13 +34,12 @@ public class DataBlock {
     };
 
 
-    public DataBlock() {
-          blockInt = ToTab.toIntegerTab(block);
-          blockByte = ToTab.toByteTab(blockInt);
-          blockInitialPermutation = Permutation.permutation(initialPermutationPattern, blockByte, 64);
-          divideBlock();
-          blockRightExtended = Permutation.permutation(expansionPermutationPattern, blockInitialPermutation, 48);
-
+    public DataBlock(char[] block) {
+        this.block = block;
+        blockInt = ToTab.toIntegerTab(block);
+        blockByte = ToTab.toByteTab(blockInt);
+        blockInitialPermutation = Permutation.permutation(initialPermutationPattern, blockByte, 64);
+        divideBlock();
     }
 
     public void divideBlock() {
@@ -49,6 +48,22 @@ public class DataBlock {
     }
 
     public void expansionPermutation() {
+        blockRightExtended = Permutation.permutation(expansionPermutationPattern, blockRight, 48);
+    }
 
+    public byte[] getBlockLeft() {
+        return blockLeft;
+    }
+
+    public byte[] getBlockRight() {
+        return blockRight;
+    }
+
+    public byte[] getBlockRightExtended() {
+        return blockRightExtended;
+    }
+
+    public void setBlockRight(byte[] blockRight) {
+        this.blockRight = blockRight;
     }
 }

@@ -3,7 +3,7 @@ package pl.wtorkowy.crypto;
 import pl.wtorkowy.cast.ToTab;
 
 public class KeyBlock {
-    private char[] block = new char[] { '1', '1', '7', '7', '7', '7', '7', '?'};
+    private char[] block;
     private int[] blockInt;
     private byte[] blockByte;
     private byte[] leftBlock = new byte[28];
@@ -36,26 +36,35 @@ public class KeyBlock {
             1, 2, 2, 2, 2, 2, 2, 1
     };
 
-    public KeyBlock() {
+    public KeyBlock(char[] block) {
+        this.block = block;
         blockInt = ToTab.toIntegerTab(block);
         blockByte = ToTab.toByteTab(blockInt);
         leftBlock = Permutation.permutation(leftPattern, blockByte, 28);
         rightBlock = Permutation.permutation(rightPattern, blockByte, 28);
     }
 
-    public void leftShift() {
+    public void round(int round) {
+        leftShift(shiftTable[round]);
+        connectBlock();
+        permutationChoiceTwo();
+    }
+
+    public void leftShift(byte times) {
         byte tmpL = 0;
         byte tmpR = 0;
 
-        for (int i = 0; i < 27; i++) {
-            tmpL = leftBlock[i];
-            leftBlock[i] = leftBlock[i + 1];
+        for (int j = 0; j < times; j++) {
+            for (int i = 0; i < 27; i++) {
+                tmpL = leftBlock[i];
+                leftBlock[i] = leftBlock[i + 1];
 
-            tmpR = rightBlock[i];
-            rightBlock[i] = rightBlock[i + 1];
+                tmpR = rightBlock[i];
+                rightBlock[i] = rightBlock[i + 1];
+            }
+            leftBlock[27] = tmpL;
+            rightBlock[27] = tmpR;
         }
-        leftBlock[27] = tmpL;
-        rightBlock[27] = tmpR;
     }
 
     public void connectBlock() {
@@ -65,5 +74,9 @@ public class KeyBlock {
 
     public void permutationChoiceTwo() {
         permutedChoiceTwo = Permutation.permutation(patternPermutedChoiceTwo, connectedBlock, 48);
+    }
+
+    public byte[] getPermutedChoiceTwo() {
+        return permutedChoiceTwo;
     }
 }

@@ -16,5 +16,15 @@ public class Xor {
         return new String(result);
     }
 
+    public static byte[] xorByteTab(byte[] first, byte[] second, int lenght) {
+        byte[] result = new byte[lenght];
+
+        for (int i = 0; i < lenght; i++) {
+            result[i] = (byte) (first[i] ^ second[i]);
+        }
+
+        return result;
+    }
+
 
 }
