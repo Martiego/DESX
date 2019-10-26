@@ -11,7 +11,7 @@ public class DataBlock {
     private byte[] blockInitialPermutation = new byte[64];
     private byte[] blockLeft = new byte[32];
     private byte[] blockRight = new byte[32];
-    private byte[] blockRightExtended = new byte[32];
+    private byte[] blockRightExtended = new byte[48];
     private byte[] initialPermutationPattern = {
             58, 50, 42, 34, 26, 18, 10, 2,
             60, 52, 44, 36, 28, 20, 12, 4,

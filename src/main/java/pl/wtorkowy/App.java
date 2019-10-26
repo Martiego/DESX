@@ -3,6 +3,7 @@ package pl.wtorkowy;
         import javafx.application.Application;
         import javafx.stage.Stage;
         import pl.wtorkowy.crypto.DataBlock;
+        import pl.wtorkowy.crypto.KeyBlock;
         import pl.wtorkowy.crypto.Xor;
 
 public class App extends Application {
