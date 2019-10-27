@@ -59,8 +59,8 @@ public class ToTab {
 
     public static byte[] cutTab(byte[] tab, int first, int count) {
         byte[] result = new byte[count];
-        for (int i = first; i < count; i++) {
-            result[i] = tab[i];
+        for (int i = 0; i < count; i++) {
+            result[i] = tab[first++];
         }
         return result;
     }

@@ -125,4 +125,13 @@ public class Des {
     public byte[] getCipherText() {
         return cipherText;
     }
+
+    public String getCipherTextString() {
+        char[] tab = new char[8];
+        for (int i = 0; i < 8; i++) {
+            tab[i] = (char) (ToTab.toInt(ToTab.cutTab(cipherText, i*8, 8)));
+        }
+
+        return new String(tab);
+    }
 }
