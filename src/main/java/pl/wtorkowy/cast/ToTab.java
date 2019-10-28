@@ -37,10 +37,10 @@ public class ToTab {
         for (int i = 0; i < 4; i++) {
             blockByte[i] = (byte) (number%2);
         }
-        for(int i=0; i< 2; i++){
+        for(int i = 0; i < 2; i++){
             tmp = blockByte[i];
             blockByte[i] = blockByte[3 - i];
-            blockByte[3 -i] = tmp;
+            blockByte[3 - i] = tmp;
         }
 
         return blockByte;

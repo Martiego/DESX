@@ -18,7 +18,7 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
 
-        Des des = new Des(ToTab.toCharTab("aaaabbbb"), ToTab.toCharTab("32ahbbbb"));
+        Des des = new Des(ToTab.toCharTab("aaaaaaaa"), ToTab.toCharTab("aaaaaaaa"));
         des.encrypt();
         System.out.println(des.getCipherTextString());
         System.out.println(Arrays.toString(des.getCipherText()) + "\nLength: " + des.getCipherText().length);

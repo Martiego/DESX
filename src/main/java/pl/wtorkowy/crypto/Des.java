@@ -19,6 +19,16 @@ public class Des {
              2,  8, 24, 14, 32, 27,  3,  9,
             19, 13, 30,  6, 22, 11,  4, 25
     };
+    private byte[] expansionPermutationPattern = {
+            32,  1,  2,  3,  4,  5,
+            4,  5,  6,  7,  8,  9,
+            8,  9, 10, 11, 12, 13,
+            12, 13, 14, 15, 16, 17,
+            16, 17, 18, 19, 20, 21,
+            20, 21, 22, 23, 24, 25,
+            24, 25, 26, 27, 28, 29,
+            28, 29, 30, 31, 32,  1
+    };
     private byte[] finalPermutation = {
             40,  8, 48, 16, 56, 24, 64, 32,
             39,  7, 47, 15, 55, 23, 63, 31,
@@ -87,8 +97,7 @@ public class Des {
         for (int i = 0; i < 16; i++) {
             tmp = rightText;
 
-            dataBlock.expansionPermutation();
-            rightTextExtended = dataBlock.getBlockRightExtended();
+            expansionPermutation();
             keyBlock.round(i);
             key = keyBlock.getPermutedChoiceTwo();
 
@@ -104,7 +113,6 @@ public class Des {
 
             secondXor = Xor.xorByteTab(leftText, permutation, 32);
 
-
             leftText = tmp;
             rightText = secondXor;
 
@@ -113,6 +121,8 @@ public class Des {
 
         System.arraycopy(leftText, 0, cipherText, 0, 32);
         System.arraycopy(rightText, 0, cipherText, 31, 32);
+
+        cipherText = Permutation.permutation(finalPermutation, cipherText, 64);
     }
 
     public int getNumber(byte[] tab) {
@@ -120,6 +130,10 @@ public class Des {
         byte[] column = { tab[1], tab[2], tab[3], tab[4] };
 
         return ToTab.toInt(row) * 16 + ToTab.toInt(column);
+    }
+
+    public void expansionPermutation() {
+        rightTextExtended = Permutation.permutation(expansionPermutationPattern, rightText, 48);
     }
 
     public byte[] getCipherText() {
