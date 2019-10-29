@@ -33,12 +33,15 @@ public class ToTab {
         return blockByte;
     }
 
-    public static byte[] toByteTab(int number) {
+    public static byte[] toByteTab(byte number) {
         byte[] blockByte = new byte[4];
         byte tmp;
+
         for (int i = 0; i < 4; i++) {
             blockByte[i] = (byte) (number%2);
+            number = (byte) (number/2);
         }
+
         for(int i = 0; i < 2; i++){
             tmp = blockByte[i];
             blockByte[i] = blockByte[3 - i];
@@ -77,6 +80,25 @@ public class ToTab {
         }
 
         return result;
+    }
+
+    public static void show(byte[] tab, String title, int blocks) {
+        System.out.print("\n" + title);
+        for (int i = 0; i < tab.length; i++) {
+            if(i%blocks == 0)
+                System.out.print("\n");
+
+            System.out.print(tab[i]);
+        }
+    }
+    public static void show(char[] tab, String title) {
+        System.out.print("\n" + title);
+        for (int i = 0; i < tab.length; i++) {
+            if(i%8 == 0)
+                System.out.print("\n");
+
+            System.out.print(tab[i]);
+        }
     }
 
 

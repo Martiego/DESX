@@ -41,6 +41,12 @@ public class DataBlock {
         System.arraycopy(blockInitialPermutation, 32, blockRight, 0, 32);
     }
 
+    public byte[] initialPermutation(byte[] tab) {
+        byte[] result;
+        result = Permutation.permutation(initialPermutationPattern, tab, tab.length);
+        return result;
+    }
+
     public byte[] getBlockLeft() {
         return blockLeft;
     }

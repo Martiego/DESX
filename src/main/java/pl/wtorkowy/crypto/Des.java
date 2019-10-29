@@ -2,6 +2,8 @@ package pl.wtorkowy.crypto;
 
 import pl.wtorkowy.cast.ToTab;
 
+import java.lang.annotation.Target;
+
 public class Des {
     private byte[] leftText;
     private byte[] rightText;
@@ -87,6 +89,7 @@ public class Des {
     public byte[] encrypt(char[] textBlock, char[] keyBlc) {
         dataBlock = new DataBlock(textBlock);
         keyBlock = new KeyBlock(keyBlc);
+
         leftText = dataBlock.getBlockLeft();
         rightText = dataBlock.getBlockRight();
 
@@ -106,7 +109,6 @@ public class Des {
                 number = SBox[j][getNumber(tmpBox)];
                 System.arraycopy(ToTab.toByteTab(number), 0, substitutionChoice, j*4, 4);
             }
-
             permutation = Permutation.permutation(patternPermutation, substitutionChoice, 32);
 
             secondXor = Xor.xorByteTab(leftText, permutation, 32);
@@ -115,8 +117,8 @@ public class Des {
             rightText = secondXor;
         }
 
-        System.arraycopy(leftText, 0, cipherText, 0, 32);
-        System.arraycopy(rightText, 0, cipherText, 31, 32);
+        System.arraycopy(rightText, 0, cipherText, 0, 32);
+        System.arraycopy(leftText, 0, cipherText, 32, 32);
 
         cipherText = Permutation.permutation(finalPermutation, cipherText, 64);
 
@@ -124,10 +126,6 @@ public class Des {
     }
 
     public byte[] decrypt(byte[] textBlock, char[] keyBlc) {
-        //TODO
-        // Nie dziala
-        // No coz, probowalem
-
         dataBlock = new DataBlock(textBlock);
         keyBlock = new KeyBlock(keyBlc);
         leftText = dataBlock.getBlockLeft();
@@ -135,16 +133,16 @@ public class Des {
 
         byte[] tmpBox = new byte[6];
         byte number;
-        for (int i = 15; i >= 0; i--) {
+        for (int i = 16; i > 0; i--) {
             tmp = rightText;
 
             expansionPermutation();
             keyBlock.roundDecrypt(i);
-            key = ToTab.reverse(keyBlock.getPermutedChoiceTwo());
+            key = keyBlock.getPermutedChoiceTwo();
 
             firstXor = Xor.xorByteTab(rightTextExtended, key, 48);
 
-            for (int j = 7; j >= 0; j--) {
+            for (int j = 0; j < 8; j++) {
                 tmpBox = ToTab.cutTab(firstXor, j*6, 6);
                 number = SBox[j][getNumber(tmpBox)];
                 System.arraycopy(ToTab.toByteTab(number), 0, substitutionChoice, j*4, 4);
@@ -158,10 +156,10 @@ public class Des {
             rightText = secondXor;
         }
 
-        System.arraycopy(leftText, 0, cipherText, 0, 32);
-        System.arraycopy(rightText, 0, cipherText, 31, 32);
+        System.arraycopy(rightText, 0, cipherText, 0, 32);
+        System.arraycopy(leftText, 0, cipherText, 32, 32);
 
-        cipherText = Permutation.permutation(finalPermutation, cipherText, 64);
+        cipherText = Permutation.permutation(finalPermutation, cipherText,64);
 
         return cipherText;
     }

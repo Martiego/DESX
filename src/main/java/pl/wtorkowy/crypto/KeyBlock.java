@@ -5,6 +5,11 @@ import pl.wtorkowy.cast.ToTab;
 public class KeyBlock {
     private char[] block;
     private int[] blockInt;
+
+    public byte[] getBlockByte() {
+        return blockByte;
+    }
+
     private byte[] blockByte;
     private byte[] leftBlock = new byte[28];
     private byte[] rightBlock = new byte[28];
@@ -33,7 +38,7 @@ public class KeyBlock {
     };
     private byte[] shiftTable = {
             1, 1, 2, 2, 2, 2, 2, 2,
-            1, 2, 2, 2, 2, 2, 2, 1
+            1, 2, 2, 2, 2, 2, 2, 1, 0
     };
 
     public KeyBlock(char[] block) {
@@ -91,7 +96,7 @@ public class KeyBlock {
 
     public void connectBlock() {
         System.arraycopy(leftBlock, 0, connectedBlock, 0, 28);
-        System.arraycopy(rightBlock, 0, connectedBlock, 27, 28);
+        System.arraycopy(rightBlock, 0, connectedBlock, 28, 28);
     }
 
     public void permutationChoiceTwo() {
