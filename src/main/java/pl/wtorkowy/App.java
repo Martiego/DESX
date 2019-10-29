@@ -18,10 +18,25 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
 
-        Des des = new Des(ToTab.toCharTab("aaaaaaaa"), ToTab.toCharTab("aaaaaaaa"));
-        des.encrypt();
+        char[] text = ToTab.toCharTab("aaaaaaaa");
+        char[] key = ToTab.toCharTab("aaaaaaaa");
+        byte[] cipherText;
+        byte[] decrypt;
+
+        Des des = new Des();
+        cipherText = des.encrypt(text, key);
         System.out.println(des.getCipherTextString());
-        System.out.println(Arrays.toString(des.getCipherText()) + "\nLength: " + des.getCipherText().length);
+
+        for (byte b: cipherText) {
+            System.out.print(b + ", ");
+        }
+
+        decrypt = des.decrypt(cipherText, key);
+        System.out.println(des.getCipherTextString());
+
+        for (byte b: decrypt) {
+            System.out.print(b + ", ");
+        }
     }
 
     @Override

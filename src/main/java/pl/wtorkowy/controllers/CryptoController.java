@@ -19,8 +19,12 @@ public class CryptoController {
 
     @FXML
     public void onClick() {
-        Des des = new Des(ToTab.toCharTab(textTxt.getText()), ToTab.toCharTab(keyTxt.getText()));
-        des.encrypt();
+        Des des = new Des();
+        char[] text = ToTab.toCharTab(textTxt.getText());
+        char[] key = ToTab.toCharTab(keyTxt.getText());
+        byte[] cipherText;
+
+        cipherText = des.encrypt(text, key);
         criptTextLbl.setText(des.getCipherTextString());
     }
 }

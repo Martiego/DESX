@@ -1,5 +1,7 @@
 package pl.wtorkowy.cast;
 
+import java.util.Arrays;
+
 public class ToTab {
 
     public static char[] toCharTab(String text) {
@@ -62,6 +64,18 @@ public class ToTab {
         for (int i = 0; i < count; i++) {
             result[i] = tab[first++];
         }
+        return result;
+    }
+
+    public static byte[] reverse(byte[] tab) {
+        byte[] result = new byte[tab.length];
+
+        for(int i = 0; i < tab.length / 2; i++) {
+            byte temp = tab[i];
+            result[i] = tab[tab.length -i -1];
+            result[tab.length -i -1] = temp;
+        }
+
         return result;
     }
 

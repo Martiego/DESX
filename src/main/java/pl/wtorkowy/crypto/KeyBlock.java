@@ -44,8 +44,14 @@ public class KeyBlock {
         rightBlock = Permutation.permutation(rightPattern, blockByte, 28);
     }
 
-    public void round(int round) {
+    public void roundEncrypt(int round) {
         leftShift(shiftTable[round]);
+        connectBlock();
+        permutationChoiceTwo();
+    }
+
+    public void roundDecrypt(int round) {
+        rightShift(shiftTable[round]);
         connectBlock();
         permutationChoiceTwo();
     }
@@ -55,15 +61,31 @@ public class KeyBlock {
         byte tmpR = 0;
 
         for (int j = 0; j < times; j++) {
-            for (int i = 0; i < 27; i++) {
-                tmpL = leftBlock[i];
-                leftBlock[i] = leftBlock[i + 1];
+            tmpL = leftBlock[0];
+            tmpR = rightBlock[0];
 
-                tmpR = rightBlock[i];
+            for (int i = 0; i < 27; i++) {
+                leftBlock[i] = leftBlock[i + 1];
                 rightBlock[i] = rightBlock[i + 1];
             }
             leftBlock[27] = tmpL;
             rightBlock[27] = tmpR;
+        }
+    }
+
+    public void rightShift(byte times) {
+        byte tmpL = 0;
+        byte tmpR = 0;
+
+        for (int j = 0; j < times; j++) {
+            tmpL = leftBlock[27];
+            tmpR = rightBlock[27];
+            for (int i = 27; i > 0; i--) {
+                leftBlock[i] = leftBlock[i - 1];
+                rightBlock[i] = rightBlock[i - 1];
+            }
+            leftBlock[0] = tmpL;
+            rightBlock[0] = tmpR;
         }
     }
 

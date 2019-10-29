@@ -22,8 +22,6 @@ public class DataBlock {
             63, 55, 47, 39, 31, 23, 15, 7
     };
 
-
-
     public DataBlock(char[] block) {
         this.block = block;
         blockInt = ToTab.toIntegerTab(block);
@@ -32,11 +30,16 @@ public class DataBlock {
         divideBlock();
     }
 
+    public DataBlock(byte[] block) {
+        blockByte = block;
+        blockInitialPermutation = Permutation.permutation(initialPermutationPattern, blockByte, 64);
+        divideBlock();
+    }
+
     public void divideBlock() {
         System.arraycopy(blockInitialPermutation, 0, blockLeft, 0, 32);
         System.arraycopy(blockInitialPermutation, 32, blockRight, 0, 32);
     }
-
 
     public byte[] getBlockLeft() {
         return blockLeft;
