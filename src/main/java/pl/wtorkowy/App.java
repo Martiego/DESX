@@ -6,31 +6,28 @@ package pl.wtorkowy;
         import javafx.scene.layout.StackPane;
         import javafx.stage.Stage;
         import pl.wtorkowy.cast.ToTab;
-        import pl.wtorkowy.crypto.DataBlock;
-        import pl.wtorkowy.crypto.Des;
-        import pl.wtorkowy.crypto.KeyBlock;
-        import pl.wtorkowy.crypto.Xor;
+        import pl.wtorkowy.crypto.*;
 
         import java.io.IOException;
-        import java.util.Arrays;
 
 public class App extends Application {
     public static void main(String[] args) {
         launch();
 
-        char[] text = ToTab.toCharTab("pieskot1");
-        char[] key = ToTab.toCharTab("juleczka");
+        char[] text = ToTab.toCharTab("pies to jest test");
+        char[] key = ToTab.toCharTab("kuleczkaxd");
+        char[] internalKey = ToTab.toCharTab("132");
+        char[] externalKey = ToTab.toCharTab("4444");
         byte[] cipherText;
-        byte[] decrypt;
+        byte[] decipherText;
 
-        Des des = new Des();
-        cipherText = des.encrypt(text, key);
+        Desx desx = new Desx();
+        cipherText = desx.encrypt(text, internalKey, key, externalKey);
         ToTab.show(cipherText, "Zaszyfrowane", 8);
-        System.out.println(des.getCipherTextString());
 
-        decrypt = des.decrypt(cipherText, key);
-        ToTab.show(decrypt, "Odszyfrowane", 8);
-        System.out.println(des.getCipherTextString());
+        decipherText = desx.decrypt(cipherText, internalKey, key, externalKey);
+        ToTab.show(decipherText, "Odszyfrowane", 8);
+        System.out.println(desx.getDecipherTextString());
 
     }
 

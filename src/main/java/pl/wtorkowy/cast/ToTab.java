@@ -33,6 +33,12 @@ public class ToTab {
         return blockByte;
     }
 
+    public static byte[] toByteTab(char[] block) {
+        int[] tmp = toIntegerTab(block);
+
+        return toByteTab(tmp);
+    }
+
     public static byte[] toByteTab(byte number) {
         byte[] blockByte = new byte[4];
         byte tmp;
@@ -64,6 +70,14 @@ public class ToTab {
 
     public static byte[] cutTab(byte[] tab, int first, int count) {
         byte[] result = new byte[count];
+        for (int i = 0; i < count; i++) {
+            result[i] = tab[first++];
+        }
+        return result;
+    }
+
+    public static char[] cutTab(char[] tab, int first, int count) {
+        char[] result = new char[count];
         for (int i = 0; i < count; i++) {
             result[i] = tab[first++];
         }

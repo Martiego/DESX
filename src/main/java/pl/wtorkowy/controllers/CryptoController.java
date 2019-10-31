@@ -25,6 +25,6 @@ public class CryptoController {
         byte[] cipherText;
 
         cipherText = des.encrypt(text, key);
-        criptTextLbl.setText(des.getCipherTextString());
+        //criptTextLbl.setText(des.getCipherTextString());
     }
 }
