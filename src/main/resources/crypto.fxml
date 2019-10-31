@@ -2,17 +2,23 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.wtorkowy.controllers.CryptoController">
    <children>
-      <Button fx:id="encryptBtn" layoutX="16.0" layoutY="154.0" mnemonicParsing="false" onAction="#onClick" text="Szyfruj" />
-      <Label layoutX="14.0" layoutY="14.0" text="Zaszyfruj swoje słowo" />
-      <TextField fx:id="textTxt" layoutX="14.0" layoutY="43.0" />
-      <Label layoutX="14.0" layoutY="83.0" text="Klucz" />
-      <TextField fx:id="keyTxt" layoutX="14.0" layoutY="110.0" />
-      <Label layoutX="229.0" layoutY="83.0" text="Zaszyfrowane słowo" />
-      <Label fx:id="criptTextLbl" layoutX="353.0" layoutY="83.0" text="CriptText" />
+      <Button fx:id="encryptBtn" layoutX="16.0" layoutY="154.0" mnemonicParsing="false" onAction="#onClickEncrypt" text="Zaszyfruj" />
+      <Label layoutX="14.0" layoutY="14.0" text="Zaszyfruj text" />
+      <Label layoutX="176.0" layoutY="14.0" text="Klucz" />
+      <TextField fx:id="keyTxt" layoutX="176.0" layoutY="43.0" prefHeight="25.0" prefWidth="115.0" />
+      <Label layoutX="176.0" layoutY="83.0" text="Zaszyfrowany/odszyfrowany text to" />
+      <Label fx:id="cipherTextLbl" layoutX="176.0" layoutY="109.0" prefWidth="94.0" text="CipherText" />
+      <Label layoutX="300.0" layoutY="14.0" text="Klucz zewnętrzny" />
+      <TextField fx:id="internalKeyTxt" layoutX="300.0" layoutY="43.0" prefHeight="25.0" prefWidth="115.0" />
+      <Label layoutX="427.0" layoutY="14.0" text="Klucz wewnętrzny" />
+      <TextField fx:id="externalKeyTxt" layoutX="427.0" layoutY="43.0" prefHeight="25.0" prefWidth="115.0" />
+      <TextArea fx:id="textTxt" layoutX="16.0" layoutY="39.0" prefHeight="105.0" prefWidth="152.0" />
+      <Button fx:id="decryptBtn" layoutX="92.0" layoutY="154.0" mnemonicParsing="false" onAction="#onClickDecrypt" text="Odszyfruj" />
    </children>
 </Pane>
