@@ -1,7 +1,5 @@
 package pl.wtorkowy.cast;
 
-import java.util.Arrays;
-
 public class ToTab {
 
     public static char[] toCharTab(String text) {

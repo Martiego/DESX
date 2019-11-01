@@ -2,8 +2,6 @@ package pl.wtorkowy.crypto;
 
 import pl.wtorkowy.cast.ToTab;
 
-import java.lang.annotation.Target;
-
 public class Des {
     private byte[] leftText;
     private byte[] rightText;

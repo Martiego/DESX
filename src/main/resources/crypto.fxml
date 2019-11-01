@@ -13,7 +13,7 @@
       <Label layoutX="176.0" layoutY="14.0" text="Klucz" />
       <TextField fx:id="keyTxt" layoutX="176.0" layoutY="43.0" prefHeight="25.0" prefWidth="115.0" />
       <Label layoutX="176.0" layoutY="83.0" text="Zaszyfrowany/odszyfrowany text to" />
-      <Label fx:id="cipherTextLbl" layoutX="176.0" layoutY="109.0" prefWidth="94.0" text="CipherText" />
+      <Label fx:id="cipherTextLbl" layoutX="176.0" layoutY="109.0" prefHeight="35.0" prefWidth="410.0" text="CipherText" />
       <Label layoutX="300.0" layoutY="14.0" text="Klucz zewnętrzny" />
       <TextField fx:id="internalKeyTxt" layoutX="300.0" layoutY="43.0" prefHeight="25.0" prefWidth="115.0" />
       <Label layoutX="427.0" layoutY="14.0" text="Klucz wewnętrzny" />

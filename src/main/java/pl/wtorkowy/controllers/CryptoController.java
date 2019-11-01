@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import pl.wtorkowy.cast.ToTab;
-import pl.wtorkowy.crypto.Des;
 import pl.wtorkowy.crypto.Desx;
 
 import java.io.*;
@@ -47,7 +46,7 @@ public class CryptoController {
     public void openFileEncrypt() {
         FileChooser fileChooser = new FileChooser();
 
-        fileChooser.setTitle("Otwórz Plik do zaszyfrowania");
+        fileChooser.setTitle("Otworz Plik do zaszyfrowania");
 
         fileEncrypt = fileChooser.showOpenDialog(stage);
 
@@ -60,7 +59,7 @@ public class CryptoController {
     public void openFileDecrypt() {
         FileChooser fileChooser = new FileChooser();
 
-        fileChooser.setTitle("Otwórz Plik do odszyfrowania");
+        fileChooser.setTitle("Otworz Plik do odszyfrowania");
 
         fileDecrypt = fileChooser.showOpenDialog(stage);
 
@@ -84,20 +83,19 @@ public class CryptoController {
             char[] externalKey = ToTab.toCharTab(externalKeyTxt.getText());
             char[] internalKey = ToTab.toCharTab(internalKeyTxt.getText());
 
-            int[] tmp = new int[(int) fileEncrypt.length()];
-            for(int i = 0; i < fileEncrypt.length(); i++) {
-                tmp[i] = fileInputStream.read();
-            }
-
-            char[] text = ToTab.toCharTab(tmp);
+            int[] tmp = new int[8];
             byte[] cipherFile;
             int[] cipherFileInt;
 
-            cipherFile = desx.encrypt(text, internalKey, key, externalKey);
-            cipherFileInt = ToTab.toIntTab(cipherFile);
-
-            for (int value : cipherFileInt) {
-                fileOutputStream.write(value);
+            for(int i = 0; i < fileEncrypt.length()/8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    tmp[j] = fileInputStream.read();
+                }
+                cipherFile = desx.encrypt(ToTab.toCharTab(tmp), internalKey, key, externalKey);
+                cipherFileInt = ToTab.toIntTab(cipherFile);
+                for (int j = 0; j < 8; j++) {
+                    fileOutputStream.write(cipherFileInt[j]);
+                }
             }
 
             fileOutputStream.close();
@@ -122,20 +120,19 @@ public class CryptoController {
             char[] externalKey = ToTab.toCharTab(externalKeyTxt.getText());
             char[] internalKey = ToTab.toCharTab(internalKeyTxt.getText());
 
-            int[] tmp = new int[(int) fileDecrypt.length()];
-            for(int i = 0; i < fileDecrypt.length(); i++) {
-                tmp[i] = fileInputStream.read();
-            }
-
-
+            int[] tmp = new int[8];
             byte[] decipherFile;
             int[] decipherFileInt;
 
-            decipherFile = desx.decrypt(ToTab.toByteTab(tmp), internalKey, key, externalKey);
-            decipherFileInt = ToTab.toIntTab(decipherFile);
-
-            for (int value : decipherFileInt) {
-                fileOutputStream.write(value);
+            for(int i = 0; i < fileDecrypt.length()/8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    tmp[j] = fileInputStream.read();
+                }
+                decipherFile = desx.decrypt(ToTab.toByteTab(tmp), internalKey, key, externalKey);
+                decipherFileInt = ToTab.toIntTab(decipherFile);
+                for (int j = 0; j < 8; j++) {
+                    fileOutputStream.write(decipherFileInt[j]);
+                }
             }
 
             fileOutputStream.close();

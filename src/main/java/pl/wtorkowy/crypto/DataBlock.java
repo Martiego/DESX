@@ -2,8 +2,6 @@ package pl.wtorkowy.crypto;
 
 import pl.wtorkowy.cast.ToTab;
 
-import java.util.Arrays;
-
 public class DataBlock {
     private char[] block;
     private int[] blockInt;
@@ -39,12 +37,6 @@ public class DataBlock {
     public void divideBlock() {
         System.arraycopy(blockInitialPermutation, 0, blockLeft, 0, 32);
         System.arraycopy(blockInitialPermutation, 32, blockRight, 0, 32);
-    }
-
-    public byte[] initialPermutation(byte[] tab) {
-        byte[] result;
-        result = Permutation.permutation(initialPermutationPattern, tab, tab.length);
-        return result;
     }
 
     public byte[] getBlockLeft() {

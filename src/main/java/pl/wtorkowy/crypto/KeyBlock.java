@@ -3,12 +3,7 @@ package pl.wtorkowy.crypto;
 import pl.wtorkowy.cast.ToTab;
 
 public class KeyBlock {
-    private char[] block;
     private int[] blockInt;
-
-    public byte[] getBlockByte() {
-        return blockByte;
-    }
 
     private byte[] blockByte;
     private byte[] leftBlock = new byte[28];
@@ -42,7 +37,6 @@ public class KeyBlock {
     };
 
     public KeyBlock(char[] block) {
-        this.block = block;
         blockInt = ToTab.toIntegerTab(block);
         blockByte = ToTab.toByteTab(blockInt);
         leftBlock = Permutation.permutation(leftPattern, blockByte, 28);
