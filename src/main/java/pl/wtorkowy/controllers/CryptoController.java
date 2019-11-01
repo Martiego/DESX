@@ -14,10 +14,6 @@ import java.io.*;
 
 public class CryptoController {
     @FXML
-    private Button encryptBtn;
-    @FXML
-    private Button decryptBtn;
-    @FXML
     private TextArea textTxt;
     @FXML
     private TextField keyTxt;
@@ -31,8 +27,6 @@ public class CryptoController {
     private Label srcEncryptLbl;
     @FXML
     private Label srcDecryptLbl;
-    @FXML
-    private Button chooseFileBtn;
     @FXML
     private Stage stage;
 
@@ -87,7 +81,10 @@ public class CryptoController {
             byte[] cipherFile;
             int[] cipherFileInt;
 
-            for(int i = 0; i < fileEncrypt.length()/8; i++) {
+            int times = (int) (fileEncrypt.length()/8);
+            int rest = (int) (fileEncrypt.length() - times * 8);
+
+            for(int i = 0; i < times; i++) {
                 for (int j = 0; j < 8; j++) {
                     tmp[j] = fileInputStream.read();
                 }
@@ -96,6 +93,18 @@ public class CryptoController {
                 for (int j = 0; j < 8; j++) {
                     fileOutputStream.write(cipherFileInt[j]);
                 }
+            }
+
+            for (int i = 0; i < rest; i++) {
+                tmp[i] = fileInputStream.read();
+                System.out.println(tmp[i]);
+            }
+
+            cipherFile = desx.encrypt(ToTab.toCharTab(tmp), internalKey, key, externalKey);
+            cipherFileInt = ToTab.toIntTab(cipherFile);
+
+            for (int i: cipherFileInt) {
+                fileOutputStream.write(i);
             }
 
             fileOutputStream.close();
