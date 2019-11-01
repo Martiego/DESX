@@ -8,8 +8,8 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.wtorkowy.controllers.CryptoController">
    <children>
-      <Button fx:id="encryptBtn" layoutX="16.0" layoutY="154.0" mnemonicParsing="false" onAction="#onClickEncrypt" text="Zaszyfruj" />
-      <Label layoutX="14.0" layoutY="14.0" text="Zaszyfruj text" />
+      <Button fx:id="encryptBtn" layoutX="16.0" layoutY="154.0" mnemonicParsing="false" onAction="#onClickEncrypt" text="Zaszyfruj tekst" />
+      <Label layoutX="14.0" layoutY="14.0" text="Zaszyfruj tekst" />
       <Label layoutX="176.0" layoutY="14.0" text="Klucz" />
       <TextField fx:id="keyTxt" layoutX="176.0" layoutY="43.0" prefHeight="25.0" prefWidth="115.0" />
       <Label layoutX="176.0" layoutY="83.0" text="Zaszyfrowany/odszyfrowany text to" />
@@ -19,6 +19,12 @@
       <Label layoutX="427.0" layoutY="14.0" text="Klucz wewnętrzny" />
       <TextField fx:id="externalKeyTxt" layoutX="427.0" layoutY="43.0" prefHeight="25.0" prefWidth="115.0" />
       <TextArea fx:id="textTxt" layoutX="16.0" layoutY="39.0" prefHeight="105.0" prefWidth="152.0" />
-      <Button fx:id="decryptBtn" layoutX="92.0" layoutY="154.0" mnemonicParsing="false" onAction="#onClickDecrypt" text="Odszyfruj" />
+      <Button fx:id="decryptBtn" layoutX="121.0" layoutY="154.0" mnemonicParsing="false" onAction="#onClickDecrypt" text="Odszyfruj tekst" />
+      <Button fx:id="chooseFileBtn" layoutX="14.0" layoutY="217.0" mnemonicParsing="false" onAction="#openFileEncrypt" prefHeight="25.0" prefWidth="187.0" text="Wybierz plik do zaszyfrowania" />
+      <Label fx:id="srcEncryptLbl" layoutX="223.0" layoutY="221.0" prefHeight="17.0" prefWidth="352.0" text="Ścieżka" />
+      <Button layoutX="14.0" layoutY="254.0" mnemonicParsing="false" onAction="#encryptFile" text="Zaszyfruj plik" />
+      <Button layoutX="12.0" layoutY="339.0" mnemonicParsing="false" onAction="#decryptFile" text="Odszyfruj plik" />
+      <Button layoutX="14.0" layoutY="301.0" mnemonicParsing="false" onAction="#openFileDecrypt" prefHeight="25.0" prefWidth="187.0" text="Wybierz plik do odszyfrowania" />
+      <Label fx:id="srcDecryptLbl" layoutX="225.0" layoutY="305.0" prefHeight="17.0" prefWidth="352.0" text="Ścieżka" />
    </children>
 </Pane>

@@ -13,6 +13,23 @@ public class ToTab {
         return result;
     }
 
+    public static char[] toCharTab(int[] block) {
+        char[] result = new char[block.length];
+        for (int i = 0; i < block.length; i++) {
+            result[i] = (char) block[i];
+        }
+        return result;
+    }
+
+    public static int[] toIntTab(byte[] block) {
+        int[] result = new int[block.length/8];
+        for (int i = 0; i < block.length/8; i++) {
+            result[i] = toInt(cutTab(block, i * 8, 8));
+        }
+
+        return result;
+    }
+
     public static int[] toIntegerTab(char[] block) {
         int[] blockInt = new int[8];
         for (int i = 0; i < 8; i++) { blockInt[i] = block[i]; }
@@ -21,9 +38,9 @@ public class ToTab {
     }
 
     public static byte[] toByteTab(int[] blockInt) {
-        byte[] blockByte = new byte[64];
+        byte[] blockByte = new byte[blockInt.length*8];
         int x = 0;
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < blockInt.length; i++) {
             for (int j = 7 + x; j >= x; j--) {
                 blockByte[j] = (byte) (blockInt[i]%2);
                 blockInt[i] = blockInt[i]/2;
@@ -81,18 +98,6 @@ public class ToTab {
         for (int i = 0; i < count; i++) {
             result[i] = tab[first++];
         }
-        return result;
-    }
-
-    public static byte[] reverse(byte[] tab) {
-        byte[] result = new byte[tab.length];
-
-        for(int i = 0; i < tab.length / 2; i++) {
-            byte temp = tab[i];
-            result[i] = tab[tab.length -i -1];
-            result[tab.length -i -1] = temp;
-        }
-
         return result;
     }
 
