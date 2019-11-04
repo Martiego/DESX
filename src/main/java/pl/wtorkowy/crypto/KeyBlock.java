@@ -1,13 +1,14 @@
 package pl.wtorkowy.crypto;
 
+import pl.wtorkowy.cast.Permutation;
 import pl.wtorkowy.cast.ToTab;
 
 public class KeyBlock {
     private int[] blockInt;
 
     private byte[] blockByte;
-    private byte[] leftBlock = new byte[28];
-    private byte[] rightBlock = new byte[28];
+    private byte[] leftBlock;
+    private byte[] rightBlock;
     private byte[] connectedBlock = new byte[56];
     private byte[] permutedChoiceTwo = new byte[48];
     private byte[] leftPattern = {
@@ -55,7 +56,7 @@ public class KeyBlock {
         permutationChoiceTwo();
     }
 
-    public void leftShift(byte times) {
+    private void leftShift(byte times) {
         byte tmpL = 0;
         byte tmpR = 0;
 
@@ -72,9 +73,9 @@ public class KeyBlock {
         }
     }
 
-    public void rightShift(byte times) {
-        byte tmpL = 0;
-        byte tmpR = 0;
+    private void rightShift(byte times) {
+        byte tmpL;
+        byte tmpR;
 
         for (int j = 0; j < times; j++) {
             tmpL = leftBlock[27];
@@ -88,12 +89,12 @@ public class KeyBlock {
         }
     }
 
-    public void connectBlock() {
+    private void connectBlock() {
         System.arraycopy(leftBlock, 0, connectedBlock, 0, 28);
         System.arraycopy(rightBlock, 0, connectedBlock, 28, 28);
     }
 
-    public void permutationChoiceTwo() {
+    private void permutationChoiceTwo() {
         permutedChoiceTwo = Permutation.permutation(patternPermutedChoiceTwo, connectedBlock, 48);
     }
 

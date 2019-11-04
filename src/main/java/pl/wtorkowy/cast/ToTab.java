@@ -1,5 +1,9 @@
 package pl.wtorkowy.cast;
 
+/**
+ *  Klasa stworzona na potrzeby dodatkowych operacji na tablicach
+ */
+
 public class ToTab {
 
     public static char[] toCharTab(String text) {
@@ -108,15 +112,16 @@ public class ToTab {
             System.out.print(tab[i]);
         }
     }
-    public static void show(char[] tab, String title) {
-        System.out.print("\n" + title);
-        for (int i = 0; i < tab.length; i++) {
-            if(i%8 == 0)
-                System.out.print("\n");
 
-            System.out.print(tab[i]);
+    public static String replace(String first, char separator, String name) {
+        int i = first.length()-1;
+        while(first.charAt(i) != separator) {
+            i--;
         }
-    }
 
+        first = first.substring(0, i+1);
+
+        return first + name;
+    }
 
 }

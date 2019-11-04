@@ -1,4 +1,4 @@
-package pl.wtorkowy.crypto;
+package pl.wtorkowy.cast;
 
 public class Permutation {
     public static byte[] permutation(byte[] pattern, byte[] block, int length) {

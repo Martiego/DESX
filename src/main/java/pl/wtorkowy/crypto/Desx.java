@@ -1,6 +1,7 @@
 package pl.wtorkowy.crypto;
 
 import pl.wtorkowy.cast.ToTab;
+import pl.wtorkowy.cast.Xor;
 
 import java.util.Arrays;
 

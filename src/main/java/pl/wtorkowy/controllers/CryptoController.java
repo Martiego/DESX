@@ -1,7 +1,6 @@
 package pl.wtorkowy.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -29,6 +28,10 @@ public class CryptoController {
     private Label srcDecryptLbl;
     @FXML
     private Stage stage;
+    @FXML
+    private TextField encryptNameTxt;
+    @FXML
+    private TextField decryptNameTxt;
 
     private File fileEncrypt;
     private File fileDecrypt;
@@ -67,7 +70,8 @@ public class CryptoController {
         if (fileEncrypt.exists()) {
             FileInputStream fileInputStream = new FileInputStream(fileEncrypt);
 
-            File newFile = new File(fileEncrypt.getAbsolutePath() + "ENCRYPT");
+            String name = ToTab.replace(fileEncrypt.getAbsolutePath(), File.separatorChar, encryptNameTxt.getText());
+            File newFile = new File(name);
             newFile.createNewFile();
 
             FileOutputStream fileOutputStream = new FileOutputStream(newFile);
@@ -119,7 +123,8 @@ public class CryptoController {
         if(fileDecrypt.exists()) {
             FileInputStream fileInputStream = new FileInputStream(fileDecrypt);
 
-            File newFile = new File(fileDecrypt.getAbsolutePath().replace("ENCRYPT", ""));
+            String name = ToTab.replace(fileDecrypt.getAbsolutePath(), File.separatorChar, decryptNameTxt.getText());
+            File newFile = new File(name);
             newFile.createNewFile();
 
             FileOutputStream fileOutputStream = new FileOutputStream(newFile);

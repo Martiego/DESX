@@ -1,6 +1,4 @@
-package pl.wtorkowy.crypto;
-
-import pl.wtorkowy.cast.ToTab;
+package pl.wtorkowy.cast;
 
 public class Xor {
 

@@ -1,6 +1,8 @@
 package pl.wtorkowy.crypto;
 
+import pl.wtorkowy.cast.Permutation;
 import pl.wtorkowy.cast.ToTab;
+import pl.wtorkowy.cast.Xor;
 
 public class Des {
     private byte[] leftText;
@@ -92,7 +94,7 @@ public class Des {
         leftText = dataBlock.getBlockLeft();
         rightText = dataBlock.getBlockRight();
 
-        byte[] tmpBox = new byte[6];
+        byte[] tmpBox;
         byte number;
         for (int i = 0; i < 16; i++) {
             tmp = rightText;
@@ -163,14 +165,14 @@ public class Des {
         return decipherText;
     }
 
-    public int getNumber(byte[] tab) {
+    private int getNumber(byte[] tab) {
         byte[] row = { tab[0], tab[5] };
         byte[] column = { tab[1], tab[2], tab[3], tab[4] };
 
         return ToTab.toInt(row) * 16 + ToTab.toInt(column);
     }
 
-    public void expansionPermutation() {
+    private void expansionPermutation() {
         rightTextExtended = Permutation.permutation(expansionPermutationPattern, rightText, 48);
     }
 

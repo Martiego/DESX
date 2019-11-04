@@ -1,12 +1,13 @@
 package pl.wtorkowy.crypto;
 
+import pl.wtorkowy.cast.Permutation;
 import pl.wtorkowy.cast.ToTab;
 
 public class DataBlock {
     private char[] block;
     private int[] blockInt;
     private byte[] blockByte;
-    private byte[] blockInitialPermutation = new byte[64];
+    private byte[] blockInitialPermutation;
     private byte[] blockLeft = new byte[32];
     private byte[] blockRight = new byte[32];
     private byte[] initialPermutationPattern = {
@@ -34,7 +35,7 @@ public class DataBlock {
         divideBlock();
     }
 
-    public void divideBlock() {
+    private void divideBlock() {
         System.arraycopy(blockInitialPermutation, 0, blockLeft, 0, 32);
         System.arraycopy(blockInitialPermutation, 32, blockRight, 0, 32);
     }
@@ -45,9 +46,5 @@ public class DataBlock {
 
     public byte[] getBlockRight() {
         return blockRight;
-    }
-
-    public void setBlockRight(byte[] blockRight) {
-        this.blockRight = blockRight;
     }
 }
