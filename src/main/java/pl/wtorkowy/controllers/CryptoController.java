@@ -1,6 +1,7 @@
 package pl.wtorkowy.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -9,84 +10,87 @@ import javafx.stage.Stage;
 import pl.wtorkowy.cast.ToTab;
 import pl.wtorkowy.crypto.Desx;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.io.*;
 
 public class CryptoController {
     @FXML
-    private TextArea textTxt;
+    private TextField keyFileTxt;
     @FXML
-    private TextField keyTxt;
+    private TextField internalKey;
     @FXML
-    private TextField internalKeyTxt;
+    private TextField key;
     @FXML
-    private TextField externalKeyTxt;
+    private TextField externalKey;
     @FXML
-    private Label cipherTextLbl;
+    private TextField internalKeyFile;
     @FXML
-    private Label srcEncryptLbl;
+    private TextField externalKeyFile;
+
     @FXML
-    private Label srcDecryptLbl;
+    private TextArea text;
+    @FXML
+    private Label cipherText;
+    @FXML
+    private TextField nameFile;
+    @FXML
+    private Label path;
+
+    @FXML
+    private Button chooseFile;
+    @FXML
+    private Button encrypt;
+    @FXML
+    private Button encryptFile;
+    @FXML
+    private Button decrypt;
+    @FXML
+    private Button decryptFile;
     @FXML
     private Stage stage;
     @FXML
-    private TextField encryptNameTxt;
+    private File file;
     @FXML
-    private TextField decryptNameTxt;
-
-    private File fileEncrypt;
-    private File fileDecrypt;
-
-    private byte[] cipherText;
-    private byte[] decipherText;
+    private byte[] cipherTextTab;
 
     @FXML
-    public void openFileEncrypt() {
+    public void openFile() {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.setTitle("Otworz Plik do zaszyfrowania");
 
-        fileEncrypt = fileChooser.showOpenDialog(stage);
+        file = fileChooser.showOpenDialog(stage);
 
-        if (fileEncrypt != null) {
-            srcEncryptLbl.setText(fileEncrypt.getAbsolutePath());
+        if (file != null) {
+            path.setText(file.getAbsolutePath());
         }
-    }
 
-    @FXML
-    public void openFileDecrypt() {
-        FileChooser fileChooser = new FileChooser();
 
-        fileChooser.setTitle("Otworz Plik do odszyfrowania");
-
-        fileDecrypt = fileChooser.showOpenDialog(stage);
-
-        if (fileDecrypt != null) {
-            srcDecryptLbl.setText(fileDecrypt.getAbsolutePath());
-        }
     }
 
     @FXML
     public void encryptFile() throws IOException {
-        if (fileEncrypt.exists()) {
-            FileInputStream fileInputStream = new FileInputStream(fileEncrypt);
+        if (file.exists()) {
+            FileInputStream fileInputStream = new FileInputStream(file);
 
-            String name = ToTab.replace(fileEncrypt.getAbsolutePath(), File.separatorChar, encryptNameTxt.getText());
+            String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
             File newFile = new File(name);
             newFile.createNewFile();
 
             FileOutputStream fileOutputStream = new FileOutputStream(newFile);
 
             Desx desx = new Desx();
-            char[] key = ToTab.toCharTab(keyTxt.getText());
-            char[] externalKey = ToTab.toCharTab(externalKeyTxt.getText());
-            char[] internalKey = ToTab.toCharTab(internalKeyTxt.getText());
+            char[] key = ToTab.toCharTab(keyFileTxt.getText());
+            char[] externalKey = ToTab.toCharTab(externalKeyFile.getText());
+            char[] internalKey = ToTab.toCharTab(internalKeyFile.getText());
 
             int[] tmp = new int[8];
             byte[] cipherFile;
             int[] cipherFileInt;
 
-            int times = (int) (fileEncrypt.length()/8);
-            int rest = (int) (fileEncrypt.length() - times * 8);
+            int times = (int) (file.length()/8);
+            int rest = (int) (file.length() - times * 8);
 
             for(int i = 0; i < times; i++) {
                 for (int j = 0; j < 8; j++) {
@@ -114,31 +118,31 @@ public class CryptoController {
             fileOutputStream.close();
             fileInputStream.close();
 
-            srcEncryptLbl.setText("Zaszyfrowano");
+            path.setText("Zaszyfrowano");
         }
     }
 
     @FXML
     public void decryptFile() throws IOException {
-        if(fileDecrypt.exists()) {
-            FileInputStream fileInputStream = new FileInputStream(fileDecrypt);
+        if(file.exists()) {
+            FileInputStream fileInputStream = new FileInputStream(file);
 
-            String name = ToTab.replace(fileDecrypt.getAbsolutePath(), File.separatorChar, decryptNameTxt.getText());
+            String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
             File newFile = new File(name);
             newFile.createNewFile();
 
             FileOutputStream fileOutputStream = new FileOutputStream(newFile);
 
             Desx desx = new Desx();
-            char[] key = ToTab.toCharTab(keyTxt.getText());
-            char[] externalKey = ToTab.toCharTab(externalKeyTxt.getText());
-            char[] internalKey = ToTab.toCharTab(internalKeyTxt.getText());
+            char[] key = ToTab.toCharTab(keyFileTxt.getText());
+            char[] externalKey = ToTab.toCharTab(externalKeyFile.getText());
+            char[] internalKey = ToTab.toCharTab(internalKeyFile.getText());
 
             int[] tmp = new int[8];
             byte[] decipherFile;
             int[] decipherFileInt;
 
-            for(int i = 0; i < fileDecrypt.length()/8; i++) {
+            for(int i = 0; i < file.length()/8; i++) {
                 for (int j = 0; j < 8; j++) {
                     tmp[j] = fileInputStream.read();
                 }
@@ -152,32 +156,37 @@ public class CryptoController {
             fileOutputStream.close();
             fileInputStream.close();
 
-            srcDecryptLbl.setText("Odszyfrowano");
+            path.setText("Odszyfrowano");
         }
     }
 
     @FXML
-    public void onClickEncrypt() {
+    public void encrypt() {
         Desx desx = new Desx();
-        char[] text = ToTab.toCharTab(textTxt.getText());
-        char[] key = ToTab.toCharTab(keyTxt.getText());
-        char[] externalKey = ToTab.toCharTab(externalKeyTxt.getText());
-        char[] internalKey = ToTab.toCharTab(internalKeyTxt.getText());
+        char[] text = ToTab.toCharTab(this.text.getText());
+        char[] key = ToTab.toCharTab(this.key.getText());
+        char[] externalKey = ToTab.toCharTab(this.externalKey.getText());
+        char[] internalKey = ToTab.toCharTab(this.internalKey.getText());
 
-        cipherText = desx.encrypt(text, internalKey, key, externalKey);
+        cipherTextTab = desx.encrypt(text, internalKey, key, externalKey);
 
-        cipherTextLbl.setText(desx.getCipherTextString());
+        cipherText.setText(desx.getCipherTextString());
     }
 
     @FXML
-    public void onClickDecrypt() {
+    public void decrypt() {
         Desx desx = new Desx();
-        char[] key = ToTab.toCharTab(keyTxt.getText());
-        char[] externalKey = ToTab.toCharTab(externalKeyTxt.getText());
-        char[] internalKey = ToTab.toCharTab(internalKeyTxt.getText());
+        char[] key = ToTab.toCharTab(this.key.getText());
+        char[] externalKey = ToTab.toCharTab(this.externalKey.getText());
+        char[] internalKey = ToTab.toCharTab(this.internalKey.getText());
 
-        decipherText = desx.decrypt(cipherText, internalKey, key, externalKey);
+        desx.decrypt(cipherTextTab, internalKey, key, externalKey);
 
-        cipherTextLbl.setText(desx.getDecipherTextString());
+        cipherText.setText(desx.getDecipherTextString());
+    }
+
+    @FXML
+    public void copy() {
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(cipherText.getText()), null);
     }
 }

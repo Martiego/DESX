@@ -5,30 +5,42 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.wtorkowy.controllers.CryptoController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.wtorkowy.controllers.CryptoController">
    <children>
-      <Button fx:id="encryptBtn" layoutX="16.0" layoutY="154.0" mnemonicParsing="false" onAction="#onClickEncrypt" text="Zaszyfruj tekst" />
-      <Label layoutX="14.0" layoutY="14.0" text="Zaszyfruj tekst" />
-      <Label layoutX="176.0" layoutY="14.0" text="Klucz" />
-      <TextField fx:id="keyTxt" layoutX="176.0" layoutY="43.0" prefHeight="25.0" prefWidth="115.0" />
-      <Label layoutX="176.0" layoutY="83.0" text="Zaszyfrowany/odszyfrowany text to" />
-      <Label fx:id="cipherTextLbl" layoutX="176.0" layoutY="109.0" prefHeight="35.0" prefWidth="410.0" text="CipherText" />
-      <Label layoutX="300.0" layoutY="14.0" text="Klucz zewnętrzny" />
-      <TextField fx:id="internalKeyTxt" layoutX="300.0" layoutY="43.0" prefHeight="25.0" prefWidth="115.0" />
-      <Label layoutX="427.0" layoutY="14.0" text="Klucz wewnętrzny" />
-      <TextField fx:id="externalKeyTxt" layoutX="427.0" layoutY="43.0" prefHeight="25.0" prefWidth="115.0" />
-      <TextArea fx:id="textTxt" layoutX="16.0" layoutY="39.0" prefHeight="105.0" prefWidth="152.0" />
-      <Button fx:id="decryptBtn" layoutX="121.0" layoutY="154.0" mnemonicParsing="false" onAction="#onClickDecrypt" text="Odszyfruj tekst" />
-      <Button fx:id="chooseFileBtn" layoutX="14.0" layoutY="230.0" mnemonicParsing="false" onAction="#openFileEncrypt" prefHeight="25.0" prefWidth="187.0" text="Wybierz plik do zaszyfrowania" />
-      <Label fx:id="srcEncryptLbl" layoutX="223.0" layoutY="234.0" prefHeight="17.0" prefWidth="352.0" text="Ścieżka" />
-      <Button layoutX="13.0" layoutY="268.0" mnemonicParsing="false" onAction="#encryptFile" text="Zaszyfruj plik" />
-      <Button layoutX="12.0" layoutY="376.0" mnemonicParsing="false" onAction="#decryptFile" prefHeight="25.0" prefWidth="95.0" text="Odszyfruj plik" />
-      <Button layoutX="14.0" layoutY="338.0" mnemonicParsing="false" onAction="#openFileDecrypt" prefHeight="25.0" prefWidth="187.0" text="Wybierz plik do odszyfrowania" />
-      <Label fx:id="srcDecryptLbl" layoutX="223.0" layoutY="342.0" prefHeight="17.0" prefWidth="352.0" text="Ścieżka" />
-      <TextField fx:id="encryptNameTxt" layoutX="217.0" layoutY="300.0" />
-      <TextField fx:id="decryptNameTxt" layoutX="217.0" layoutY="411.0" />
-      <Label layoutX="16.0" layoutY="304.0" prefHeight="25.0" prefWidth="187.0" text="Nazwa zaszyfrowanego pliku" />
-      <Label layoutX="16.0" layoutY="415.0" text="Nazwa odszyfrowanego pliku" />
+      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="358.0" text="Szyforwanie tekstu" textAlignment="CENTER" underline="true">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutX="428.0" layoutY="14.0" prefHeight="17.0" prefWidth="358.0" text="Szyfrowanie plików" textAlignment="CENTER" underline="true">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="14.0" layoutY="58.0" prefHeight="17.0" prefWidth="100.0" text="Klucz wewnętrzny" />
+      <Label alignment="CENTER" layoutX="272.0" layoutY="58.0" prefHeight="17.0" prefWidth="100.0" text="Klucz zewnętrzny" />
+      <Label alignment="CENTER" layoutX="143.0" layoutY="58.0" prefHeight="17.0" prefWidth="100.0" text="Klucz" />
+      <Label alignment="CENTER" layoutX="428.0" layoutY="58.0" prefHeight="17.0" prefWidth="100.0" text="Klucz wewnętrzny" />
+      <Label alignment="CENTER" layoutX="686.0" layoutY="58.0" prefHeight="17.0" prefWidth="100.0" text="Klucz zewnętrzny" />
+      <Label alignment="CENTER" layoutX="557.0" layoutY="58.0" prefHeight="17.0" prefWidth="100.0" text="Klucz" />
+      <TextField fx:id="internalKey" layoutX="14.0" layoutY="83.0" prefHeight="27.0" prefWidth="100.0" />
+      <TextField fx:id="internalKeyFile" layoutX="428.0" layoutY="83.0" prefHeight="27.0" prefWidth="100.0" />
+      <TextField fx:id="externalKey" layoutX="272.0" layoutY="83.0" prefHeight="27.0" prefWidth="100.0" />
+      <TextField fx:id="key" layoutX="143.0" layoutY="83.0" prefHeight="27.0" prefWidth="100.0" />
+      <TextField fx:id="externalKeyFile" layoutX="686.0" layoutY="83.0" prefHeight="27.0" prefWidth="100.0" />
+      <TextField fx:id="keyFileTxt" layoutX="557.0" layoutY="83.0" prefHeight="27.0" prefWidth="100.0" />
+      <TextArea fx:id="text" layoutX="14.0" layoutY="150.0" prefHeight="77.0" prefWidth="358.0" />
+      <Label layoutX="14.0" layoutY="123.0" text="Tekst do zaszyfrowania" />
+      <Label layoutX="14.0" layoutY="242.0" text="Tekst zaszyfrowany" />
+      <Label fx:id="cipherText" alignment="TOP_LEFT" layoutX="14.0" layoutY="270.0" onMouseClicked="#copy" prefHeight="47.0" prefWidth="358.0" text="Cipher Text" wrapText="true" />
+      <Button fx:id="encrypt" layoutX="14.0" layoutY="327.0" mnemonicParsing="false" onAction="#encrypt" prefHeight="27.0" prefWidth="100.0" text="Zaszyfruj" />
+      <Button fx:id="decrypt" layoutX="143.0" layoutY="327.0" mnemonicParsing="false" onAction="#decrypt" prefHeight="27.0" prefWidth="100.0" text="Odszyfruj" />
+      <Button fx:id="chooseFile" layoutX="428.0" layoutY="150.0" mnemonicParsing="false" onAction="#openFile" prefHeight="27.0" prefWidth="108.0" text="Wybierz plik" />
+      <Label fx:id="path" layoutX="557.0" layoutY="155.0" text="Ścieżka" />
+      <Label layoutX="426.0" layoutY="219.0" text="Nazwa nowego pliku" />
+      <TextField fx:id="nameFile" layoutX="557.0" layoutY="214.0" prefHeight="27.0" prefWidth="112.0" />
+      <Button fx:id="encryptFile" layoutX="426.0" layoutY="280.0" mnemonicParsing="false" onAction="#encryptFile" prefHeight="27.0" prefWidth="100.0" text="Zaszyfruj plik" />
+      <Button layoutX="557.0" layoutY="280.0" mnemonicParsing="false" onAction="#decryptFile" prefHeight="27.0" prefWidth="100.0" text="Odszyfruj plik" />
    </children>
 </Pane>
