@@ -38,16 +38,6 @@ public class CryptoController {
     private Label path;
 
     @FXML
-    private Button chooseFile;
-    @FXML
-    private Button encrypt;
-    @FXML
-    private Button encryptFile;
-    @FXML
-    private Button decrypt;
-    @FXML
-    private Button decryptFile;
-    @FXML
     private Stage stage;
     @FXML
     private File file;
@@ -71,7 +61,7 @@ public class CryptoController {
 
     @FXML
     public void encryptFile() throws IOException {
-        if (file.exists()) {
+        if (file != null) {
             FileInputStream fileInputStream = new FileInputStream(file);
 
             String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
@@ -124,7 +114,7 @@ public class CryptoController {
 
     @FXML
     public void decryptFile() throws IOException {
-        if(file.exists()) {
+        if(file != null) {
             FileInputStream fileInputStream = new FileInputStream(file);
 
             String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
