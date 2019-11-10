@@ -1,6 +1,7 @@
 package pl.wtorkowy.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -36,6 +37,10 @@ public class CryptoController {
     private TextField nameFile;
     @FXML
     private Label path;
+    @FXML
+    private ProgressBar progressBar;
+    double progress = 0;
+    double tmpProgress;
 
     @FXML
     private Stage stage;
@@ -55,98 +60,23 @@ public class CryptoController {
         if (file != null) {
             path.setText(file.getAbsolutePath());
         }
-
-
     }
 
     @FXML
     public void encryptFile() throws IOException {
         if (file != null) {
-            FileInputStream fileInputStream = new FileInputStream(file);
-
-            String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
-            File newFile = new File(name);
-            newFile.createNewFile();
-
-            FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-
-            Desx desx = new Desx();
-            char[] key = ToTab.toCharTab(keyFileTxt.getText());
-            char[] externalKey = ToTab.toCharTab(externalKeyFile.getText());
-            char[] internalKey = ToTab.toCharTab(internalKeyFile.getText());
-
-            int[] tmp = new int[8];
-            byte[] cipherFile;
-            int[] cipherFileInt;
-
-            int times = (int) (file.length()/8);
-            int rest = (int) (file.length() - times * 8);
-
-            for(int i = 0; i < times; i++) {
-                for (int j = 0; j < 8; j++) {
-                    tmp[j] = fileInputStream.read();
-                }
-                cipherFile = desx.encrypt(ToTab.toCharTab(tmp), internalKey, key, externalKey);
-                cipherFileInt = ToTab.toIntTab(cipherFile);
-                for (int j = 0; j < 8; j++) {
-                    fileOutputStream.write(cipherFileInt[j]);
-                }
-            }
-
-            for (int i = 0; i < rest; i++) {
-                tmp[i] = fileInputStream.read();
-                System.out.println(tmp[i]);
-            }
-
-            cipherFile = desx.encrypt(ToTab.toCharTab(tmp), internalKey, key, externalKey);
-            cipherFileInt = ToTab.toIntTab(cipherFile);
-
-            for (int i: cipherFileInt) {
-                fileOutputStream.write(i);
-            }
-
-            fileOutputStream.close();
-            fileInputStream.close();
-
-            path.setText("Zaszyfrowano");
+            EncryptFile encryptFile = new EncryptFile();
+            Thread thread = new Thread(encryptFile);
+            thread.start();
         }
     }
 
     @FXML
     public void decryptFile() throws IOException {
         if(file != null) {
-            FileInputStream fileInputStream = new FileInputStream(file);
-
-            String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
-            File newFile = new File(name);
-            newFile.createNewFile();
-
-            FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-
-            Desx desx = new Desx();
-            char[] key = ToTab.toCharTab(keyFileTxt.getText());
-            char[] externalKey = ToTab.toCharTab(externalKeyFile.getText());
-            char[] internalKey = ToTab.toCharTab(internalKeyFile.getText());
-
-            int[] tmp = new int[8];
-            byte[] decipherFile;
-            int[] decipherFileInt;
-
-            for(int i = 0; i < file.length()/8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    tmp[j] = fileInputStream.read();
-                }
-                decipherFile = desx.decrypt(ToTab.toByteTab(tmp), internalKey, key, externalKey);
-                decipherFileInt = ToTab.toIntTab(decipherFile);
-                for (int j = 0; j < 8; j++) {
-                    fileOutputStream.write(decipherFileInt[j]);
-                }
-            }
-
-            fileOutputStream.close();
-            fileInputStream.close();
-
-            path.setText("Odszyfrowano");
+            DecryptFile decryptFile = new DecryptFile();
+            Thread thread = new Thread(decryptFile);
+            thread.start();
         }
     }
 
@@ -178,5 +108,119 @@ public class CryptoController {
     @FXML
     public void copy() {
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(cipherText.getText()), null);
+    }
+
+    public class EncryptFile implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                progressBar.setProgress(progress);
+                FileInputStream fileInputStream = new FileInputStream(file);
+
+                String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
+                File newFile = new File(name);
+                newFile.createNewFile();
+
+                FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+
+                Desx desx = new Desx();
+                char[] key = ToTab.toCharTab(keyFileTxt.getText());
+                char[] externalKey = ToTab.toCharTab(externalKeyFile.getText());
+                char[] internalKey = ToTab.toCharTab(internalKeyFile.getText());
+
+                int[] tmp = new int[8];
+                byte[] cipherFile;
+                int[] cipherFileInt;
+
+                int times = (int) (file.length()/8);
+                int rest = (int) (file.length() - times * 8);
+                tmpProgress = 1.0/times;
+
+                for(int i = 0; i < times; i++) {
+                    progressBar.setProgress(progress+=tmpProgress);
+                    for (int j = 0; j < 8; j++) {
+                        tmp[j] = fileInputStream.read();
+                    }
+
+                    cipherFile = desx.encrypt(ToTab.toCharTab(tmp), internalKey, key, externalKey);
+                    cipherFileInt = ToTab.toIntTab(cipherFile);
+                    for (int j = 0; j < 8; j++) {
+                        fileOutputStream.write(cipherFileInt[j]);
+                    }
+                }
+
+                for (int i = 0; i < rest; i++) {
+                    tmp[i] = fileInputStream.read();
+                    System.out.println(tmp[i]);
+                }
+
+                for (int i = rest; i < 8; i++) {
+                    tmp[i] = '\0';
+                }
+
+                cipherFile = desx.encrypt(ToTab.toCharTab(tmp), internalKey, key, externalKey);
+                cipherFileInt = ToTab.toIntTab(cipherFile);
+
+                for (int i: cipherFileInt) {
+                    fileOutputStream.write(i);
+                }
+
+                fileOutputStream.close();
+                fileInputStream.close();
+
+                progress = 0;
+            }
+            catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    public class DecryptFile implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                progressBar.setProgress(progress);
+                FileInputStream fileInputStream = new FileInputStream(file);
+
+                String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
+                File newFile = new File(name);
+                newFile.createNewFile();
+
+                FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+
+                Desx desx = new Desx();
+                char[] key = ToTab.toCharTab(keyFileTxt.getText());
+                char[] externalKey = ToTab.toCharTab(externalKeyFile.getText());
+                char[] internalKey = ToTab.toCharTab(internalKeyFile.getText());
+
+                int[] tmp = new int[8];
+                byte[] decipherFile;
+                int[] decipherFileInt;
+                tmpProgress = 1.0/(file.length()/8.0);
+
+                for(int i = 0; i < file.length()/8; i++) {
+                    progressBar.setProgress(progress+=tmpProgress);
+                    for (int j = 0; j < 8; j++) {
+                        tmp[j] = fileInputStream.read();
+                    }
+                    decipherFile = desx.decrypt(ToTab.toByteTab(tmp), internalKey, key, externalKey);
+                    decipherFileInt = ToTab.toIntTab(decipherFile);
+                    for (int j = 0; j < 8; j++) {
+                        fileOutputStream.write(decipherFileInt[j]);
+                    }
+                }
+
+                fileOutputStream.close();
+                fileInputStream.close();
+
+                progress = 0;
+            }
+            catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }

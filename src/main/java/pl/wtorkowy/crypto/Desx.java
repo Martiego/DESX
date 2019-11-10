@@ -59,7 +59,7 @@ public class Desx {
 
     private void rebuildKeys(char[] keyInternal, char[] keyDes, char[] keyExternal) {
         //Zabezpieczenie, gdyby ktoś podał klucz za krótki
-        if(keyExternal.length > 8) {
+        if(keyInternal.length > 8) {
             System.arraycopy(keyInternal, 0, this.keyInternal, 0, 8);
         }
         else {
