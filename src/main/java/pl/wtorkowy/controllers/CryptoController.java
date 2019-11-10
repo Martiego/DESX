@@ -152,7 +152,6 @@ public class CryptoController {
 
                 for (int i = 0; i < rest; i++) {
                     tmp[i] = fileInputStream.read();
-                    System.out.println(tmp[i]);
                 }
 
                 for (int i = rest; i < 8; i++) {
