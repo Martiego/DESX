@@ -39,8 +39,8 @@ public class CryptoController {
     private Label path;
     @FXML
     private ProgressBar progressBar;
-    double progress = 0;
-    double tmpProgress;
+    private double progress = 0;
+    private double tmpProgress;
 
     @FXML
     private Stage stage;
