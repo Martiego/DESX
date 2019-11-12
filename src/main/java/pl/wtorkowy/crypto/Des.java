@@ -132,7 +132,7 @@ public class Des {
         leftText = dataBlock.getBlockLeft();
         rightText = dataBlock.getBlockRight();
 
-        byte[] tmpBox = new byte[6];
+        byte[] tmpBox;
         byte number;
         for (int i = 16; i > 0; i--) {
             tmp = rightText;

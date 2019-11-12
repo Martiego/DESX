@@ -14,6 +14,7 @@ import pl.wtorkowy.crypto.Desx;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.io.*;
+import java.util.Arrays;
 
 public class CryptoController {
     @FXML
@@ -63,19 +64,17 @@ public class CryptoController {
     }
 
     @FXML
-    public void encryptFile() throws IOException {
+    public void encryptFile() {
         if (file != null) {
-            EncryptFile encryptFile = new EncryptFile();
-            Thread thread = new Thread(encryptFile);
+            Thread thread = new Thread(new EncryptFile());
             thread.start();
         }
     }
 
     @FXML
-    public void decryptFile() throws IOException {
+    public void decryptFile() {
         if(file != null) {
-            DecryptFile decryptFile = new DecryptFile();
-            Thread thread = new Thread(decryptFile);
+            Thread thread = new Thread(new DecryptFile());
             thread.start();
         }
     }
@@ -84,11 +83,20 @@ public class CryptoController {
     public void encrypt() {
         Desx desx = new Desx();
         char[] text = ToTab.toCharTab(this.text.getText());
-        char[] key = ToTab.toCharTab(this.key.getText());
-        char[] externalKey = ToTab.toCharTab(this.externalKey.getText());
-        char[] internalKey = ToTab.toCharTab(this.internalKey.getText());
 
-        cipherTextTab = desx.encrypt(text, internalKey, key, externalKey);
+        int tmp = text.length;
+        while(tmp%8 != 0)
+            tmp++;
+
+        char[] tmpText = new char[tmp];
+        System.arraycopy(text, 0, tmpText, 0, text.length);
+        Arrays.fill(tmpText, text.length, tmp, '\0');
+
+        char[] key = rebuildKey(ToTab.toCharTab(this.key.getText()));
+        char[] externalKey = rebuildKey(ToTab.toCharTab(this.externalKey.getText()));
+        char[] internalKey = rebuildKey(ToTab.toCharTab(this.internalKey.getText()));
+
+        cipherTextTab = desx.encrypt(tmpText, internalKey, key, externalKey);
 
         cipherText.setText(desx.getCipherTextString());
     }
@@ -96,9 +104,9 @@ public class CryptoController {
     @FXML
     public void decrypt() {
         Desx desx = new Desx();
-        char[] key = ToTab.toCharTab(this.key.getText());
-        char[] externalKey = ToTab.toCharTab(this.externalKey.getText());
-        char[] internalKey = ToTab.toCharTab(this.internalKey.getText());
+        char[] key = rebuildKey(ToTab.toCharTab(this.key.getText()));
+        char[] externalKey = rebuildKey(ToTab.toCharTab(this.externalKey.getText()));
+        char[] internalKey = rebuildKey(ToTab.toCharTab(this.internalKey.getText()));
 
         desx.decrypt(cipherTextTab, internalKey, key, externalKey);
 
@@ -108,6 +116,18 @@ public class CryptoController {
     @FXML
     public void copy() {
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(cipherText.getText()), null);
+    }
+
+    private char[] rebuildKey(char[] key) {
+        char[] tmp = new char[8];
+        if(key.length > 8) {
+            tmp = ToTab.cutTab(key, 0, 8);
+        }
+        else {
+            System.arraycopy(key, 0, tmp, 0, key.length);
+            Arrays.fill(tmp, key.length, 8, '\0');
+        }
+       return tmp;
     }
 
     public class EncryptFile implements Runnable {
@@ -125,9 +145,10 @@ public class CryptoController {
                 FileOutputStream fileOutputStream = new FileOutputStream(newFile);
 
                 Desx desx = new Desx();
-                char[] key = ToTab.toCharTab(keyFileTxt.getText());
-                char[] externalKey = ToTab.toCharTab(externalKeyFile.getText());
-                char[] internalKey = ToTab.toCharTab(internalKeyFile.getText());
+                char[] key = rebuildKey(ToTab.toCharTab(keyFileTxt.getText()));
+                char[] externalKey = rebuildKey(ToTab.toCharTab(externalKeyFile.getText()));
+                char[] internalKey = rebuildKey(ToTab.toCharTab(internalKeyFile.getText()));
+
 
                 int[] tmp = new int[8];
                 byte[] cipherFile;
@@ -191,9 +212,9 @@ public class CryptoController {
                 FileOutputStream fileOutputStream = new FileOutputStream(newFile);
 
                 Desx desx = new Desx();
-                char[] key = ToTab.toCharTab(keyFileTxt.getText());
-                char[] externalKey = ToTab.toCharTab(externalKeyFile.getText());
-                char[] internalKey = ToTab.toCharTab(internalKeyFile.getText());
+                char[] key = rebuildKey(ToTab.toCharTab(keyFileTxt.getText()));
+                char[] externalKey = rebuildKey(ToTab.toCharTab(externalKeyFile.getText()));
+                char[] internalKey = rebuildKey(ToTab.toCharTab(internalKeyFile.getText()));
 
                 int[] tmp = new int[8];
                 byte[] decipherFile;
