@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.wtorkowy.controllers.CryptoController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.wtorkowy.controllers.CryptoController">
    <children>
       <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="358.0" text="Szyforwanie tekstu" textAlignment="CENTER" underline="true">
          <font>
@@ -44,5 +44,9 @@
       <Button fx:id="encryptFile" layoutX="426.0" layoutY="280.0" mnemonicParsing="false" onAction="#encryptFile" prefHeight="27.0" prefWidth="100.0" text="Zaszyfruj plik" />
       <Button layoutX="557.0" layoutY="280.0" mnemonicParsing="false" onAction="#decryptFile" prefHeight="27.0" prefWidth="100.0" text="Odszyfruj plik" />
       <ProgressBar fx:id="progressBar" layoutX="426.0" layoutY="345.0" prefWidth="200.0" progress="0.0" />
+      <Label layoutX="14.0" layoutY="376.0" prefWidth="358.0" text="Autorzy programu:" textAlignment="CENTER" underline="true" />
+      <Label layoutX="14.0" layoutY="393.0" text="Patryk Kolanek 224 333" />
+      <Label layoutX="14.0" layoutY="410.0" text="Kacper Swiercz 224 443" />
+      <Label layoutX="14.0" layoutY="427.0" text="Szymon Jacon 224 306" />
    </children>
 </Pane>
